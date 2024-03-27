@@ -209,14 +209,18 @@ open class OverlayContainerViewController: UIViewController {
     /// and animates the translation.
     /// Use `moveOverlay(toNotchAt:animated:completion:)` to override this behavior.
     ///
-    open func invalidateNotchHeights() {
+    open func invalidateNotchHeights(scheduleOverlayTranslation: Bool = true) {
         guard isViewLoaded else { return }
         configuration.invalidateOverlayMetrics()
-        translationController?.scheduleOverlayTranslation(
-            .basedOnTargetPolicy,
-            velocity: .zero,
-            animated: true
-        )
+        
+        if scheduleOverlayTranslation {
+            translationController?.scheduleOverlayTranslation(
+                .basedOnTargetPolicy,
+                velocity: .zero,
+                animated: true
+            )
+        }
+        
         setNeedsOverlayContainerHeightUpdate()
     }
 
